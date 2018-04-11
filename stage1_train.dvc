@@ -1,0 +1,8 @@
+cmd: unzip data/stage1_train.zip -d data/stage1_train/
+deps:
+- md5: 85beedf315ef978111b99a4b92899e75
+  path: data/stage1_train.zip
+outs:
+- cache: true
+  md5: 86da82bf45822ec34159d3efe2b3f1cb.dir
+  path: data/stage1_train
