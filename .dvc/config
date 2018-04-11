@@ -10,9 +10,8 @@ LogLevel = Info
 CredentialPath = ~/.aws/credentials
 Profile = default
 
-StoragePath = dvc/tutorial
+StoragePath = cs760/nuclei/dvc
 
 [GCP]
 StoragePath = 
 ProjectName = 
-
