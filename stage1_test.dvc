@@ -1,0 +1,8 @@
+cmd: unzip data/stage1_test.zip -d data/stage1_test/
+deps:
+- md5: ead1029a790329119ec9241fe8edfc49
+  path: data/stage1_test.zip
+outs:
+- cache: true
+  md5: 40327d9824195c3073c6e1a5760bd89a.dir
+  path: data/stage1_test
