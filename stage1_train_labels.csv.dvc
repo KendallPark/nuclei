@@ -1,0 +1,8 @@
+cmd: unzip data/stage1_train_labels.csv.zip -d data/
+deps:
+- md5: 3bd0b6eed6f2fae066cc81ee3c36501b
+  path: data/stage1_train_labels.csv.zip
+outs:
+- cache: true
+  md5: fb18d528920488a86fcac94b66ac45a1
+  path: data/stage1_train_labels.csv

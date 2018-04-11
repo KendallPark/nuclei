@@ -5,3 +5,4 @@ stage1_train_labels.csv.zip
 stage1_sample_submission.csv
 stage1_test
 stage1_train
+stage1_train_labels.csv
