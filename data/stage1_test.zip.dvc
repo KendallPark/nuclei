@@ -1,6 +1,0 @@
-cmd: null
-deps: []
-outs:
-- cache: true
-  md5: ead1029a790329119ec9241fe8edfc49
-  path: stage1_test.zip

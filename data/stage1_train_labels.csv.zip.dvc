@@ -1,6 +1,0 @@
-cmd: null
-deps: []
-outs:
-- cache: true
-  md5: 3bd0b6eed6f2fae066cc81ee3c36501b
-  path: stage1_train_labels.csv.zip

@@ -1,8 +1,0 @@
-cmd: ' unzip data/stage1_sample_submission.csv.zip -d data/'
-deps:
-- md5: ebc7a77d73299522bfc46f45a553af96
-  path: data/stage1_sample_submission.csv.zip
-outs:
-- cache: true
-  md5: 7e8af3b83774f2769ca5898039feee57
-  path: data/stage1_sample_submission.csv
