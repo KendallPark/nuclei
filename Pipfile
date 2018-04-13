@@ -21,6 +21,8 @@ opencv-python = "*"
 "h5py" = "*"
 imgaug = "*"
 ipython = {extras = ["all"]}
+sklearn = "*"
+ipykernel = "*"
 
 
 [dev-packages]
