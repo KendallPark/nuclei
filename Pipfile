@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 dvc = "*"
 jupyterlab = "*"
 numpy = "*"
@@ -23,12 +20,10 @@ imgaug = "*"
 ipython = {extras = ["all"]}
 sklearn = "*"
 ipykernel = "*"
-
+jupyter = "*"
+pandas = "*"
 
 [dev-packages]
 
-
-
 [requires]
-
 python_version = "3.6"
