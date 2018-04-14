@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f957eb63452190a1ed6048a473428f148b1f5da1918ab887d55f410c7772f0fa"
+            "sha256": "6ccd1948b39f4a938112bcc02b0b67a7f5fe321264840c3508a30dac2c7ac559"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -643,6 +643,13 @@
                 "sha256:d6308617fbdb3949c76356e8149c9835b65b01653fdefd983085c61d75f3c810"
             ],
             "version": "==0.10.5"
+        },
+        "kaggle": {
+            "hashes": [
+                "sha256:3e484e99133d028959f89a14bd743e7b5d4d0844a5a52fbd118e7d7965e89d90"
+            ],
+            "index": "pypi",
+            "version": "==1.1.0"
         },
         "keras": {
             "hashes": [
@@ -1383,6 +1390,14 @@
                 "sha256:c050089173c2e9272244bccfb6a8615fb9e53b79420a5551acfa76094ecc3111"
             ],
             "version": "==5.0.2"
+        },
+        "tqdm": {
+            "hashes": [
+                "sha256:059e7dd579f2c1a2b9103a8ec76fb0bc32cc16904d7d65977edfed6b5745dc48",
+                "sha256:a180389a780f6b52268c30f40fdcb0443ab3d925574579d987eadf10c59ff90c"
+            ],
+            "index": "pypi",
+            "version": "==4.22.0"
         },
         "traitlets": {
             "hashes": [

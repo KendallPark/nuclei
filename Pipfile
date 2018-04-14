@@ -22,6 +22,8 @@ sklearn = "*"
 ipykernel = "*"
 jupyter = "*"
 pandas = "*"
+kaggle = "*"
+tqdm = "*"
 
 [dev-packages]
 
