@@ -14,11 +14,11 @@ def get_augmentor():
     augmentation = iaa.SomeOf((0, 3), [
         iaa.Fliplr(0.5),  # horizontal flip
         iaa.Flipud(0.5),  # vertical flip
-        iaa.CropAndPad(  # randomly crop up to 10 percent
-            percent=(0, 0.1),
-            pad_mode=["constant", "edge"],  # use constant value or closest edge pixel
-            pad_cval=(0, 256)
-        ),
+        # iaa.CropAndPad(  # randomly crop up to 10 percent
+        #     percent=(0, 0.1),
+        #     pad_mode=["constant", "edge"],  # use constant value or closest edge pixel
+        #     pad_cval=(0, 256)
+        # ),
         iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}),
         iaa.Affine(translate_px={"x": (-15, 15), "y": (-15, 15)}),
         iaa.Affine(rotate=(-45, 45)),
