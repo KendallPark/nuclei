@@ -11,7 +11,7 @@ def get_augmentor():
     #     iaa.Multiply((0.8, 1.5)),
     #     iaa.GaussianBlur(sigma=(0.0, 5.0))
     # ])
-    aug = iaa.SomeOf((0, 3), [
+    augmentation = iaa.SomeOf((0, 3), [
         iaa.Fliplr(0.5),  # horizontal flip
         iaa.Flipud(0.5),  # vertical flip
         iaa.CropAndPad(  # randomly crop up to 10 percent
