@@ -48,6 +48,8 @@ ROOT_DIR = os.path.abspath("../")
 
 THIS_DIR = os.path.abspath(".")
 
+DATA_DIR = os.path.join(ROOT_DIR, "data")
+
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
 from mrcnn.config import Config
@@ -65,6 +67,8 @@ DEFAULT_LOGS_DIR = os.path.join(THIS_DIR, "logs")
 # Results directory
 # Save submission files here
 RESULTS_DIR = os.path.join(THIS_DIR, "results/nucleus/")
+
+from data_augmentation.data_aug import get_augmentor
 
 # The dataset doesn't have a standard train/val split, so I picked
 # a variety of images to surve as a validation set.
@@ -268,15 +272,16 @@ def train(model):
 
     # Image augmentation
     # http://imgaug.readthedocs.io/en/latest/source/augmenters.html
-    augmentation = iaa.SomeOf((0, 2), [
-        iaa.Fliplr(0.5),
-        iaa.Flipud(0.5),
-        iaa.OneOf([iaa.Affine(rotate=90),
-                   iaa.Affine(rotate=180),
-                   iaa.Affine(rotate=270)]),
-        iaa.Multiply((0.8, 1.5)),
-        iaa.GaussianBlur(sigma=(0.0, 5.0))
-    ])
+    # augmentation = iaa.SomeOf((0, 2), [
+    #     iaa.Fliplr(0.5),
+    #     iaa.Flipud(0.5),
+    #     iaa.OneOf([iaa.Affine(rotate=90),
+    #                iaa.Affine(rotate=180),
+    #                iaa.Affine(rotate=270)]),
+    #     iaa.Multiply((0.8, 1.5)),
+    #     iaa.GaussianBlur(sigma=(0.0, 5.0))
+    # ])
+    augmentation = get_augmentor()
 
     # *** This training schedule is an example. Update to your needs ***
 
@@ -430,7 +435,9 @@ if __name__ == '__main__':
 
     # Validate arguments
     if args.command == "train":
-        assert args.dataset, "Argument --dataset is required for training"
+        if not args.dataset:
+            args.dataset = DATA_DIR
+        # assert args.dataset, "Argument --dataset is required for training"
     elif args.command == "detect":
         assert args.subset, "Provide --subset to run prediction on"
 
