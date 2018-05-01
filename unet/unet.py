@@ -6,7 +6,7 @@ import skimage.io
 import numpy as np
 import pandas as pd
 import cv2
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import skimage.segmentation
 from sklearn.model_selection import train_test_split
 from keras.models import Model, load_model
