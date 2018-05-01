@@ -476,8 +476,6 @@ if __name__ == '__main__':
     elif args.weights.lower() == "imagenet":
         # Start from ImageNet trained weights
         weights_path = model.get_imagenet_weights()
-    elif args.weights.lower() == "none":
-        pass
     else:
         weights_path = args.weights
 
@@ -489,6 +487,8 @@ if __name__ == '__main__':
         model.load_weights(weights_path, by_name=True, exclude=[
             "mrcnn_class_logits", "mrcnn_bbox_fc",
             "mrcnn_bbox", "mrcnn_mask"])
+    elif args.weights.lower() == "none":
+        pass
     else:
         model.load_weights(weights_path, by_name=True)
 
