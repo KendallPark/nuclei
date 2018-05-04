@@ -68,7 +68,10 @@ DEFAULT_LOGS_DIR = os.path.join(THIS_DIR, "logs")
 # Save submission files here
 RESULTS_DIR = os.path.join(THIS_DIR, "results/nucleus/")
 
-# from data_augmentation.data_aug import get_augmentor
+from data_augmentation.data_aug import get_augmentor_1
+from data_augmentation.data_aug import get_augmentor_2
+from data_augmentation.data_aug import get_augmentor_3
+from data_augmentation.data_aug import get_augmentor_4
 from data.extractor_id import extraction
 
 # The dataset doesn't have a standard train/val split, so I picked
@@ -283,7 +286,10 @@ def train(model):
     #     iaa.Multiply((0.8, 1.5)),
     #     iaa.GaussianBlur(sigma=(0.0, 5.0))
     # ])
-    # augmentation = get_augmentor()
+    augmentation_1 = get_augmentor_1()
+    augmentation_2 = get_augmentor_2()
+    augmentation_3 = get_augmentor_3()
+    augmentation_4 = get_augmentor_4()
 
     # *** This training schedule is an example. Update to your needs ***
 
