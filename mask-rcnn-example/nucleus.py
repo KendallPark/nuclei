@@ -299,14 +299,14 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=20,
-                augmentation=augmentation_3,
+                augmentation=augmentation_4,
                 layers='heads')
 
     print("Train all layers")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=80,
-                augmentation=augmentation_3,
+                augmentation=augmentation_4,
                 layers='all')
 
 
