@@ -38,7 +38,7 @@ random.seed = seed
 np.random.seed = seed
 
 num_of_epoch = 100
-filename = 'model-no-augmentation.h5'
+filename = 'model_aug_2.h5'
 
 def load_resize_data(train_ids, validation_ids):
     # Get train and test IDs
@@ -159,7 +159,8 @@ def build_unet():
 
 
 def train(X_train, Y_train, X_val, Y_val, model, filename):
-    augmentor = data_aug.get_augmentor_1()
+    #augmentor = data_aug.get_augmentor_1()
+    augmentor = data_aug.get_augmentor_2()
     # earlystopper = EarlyStopping(patience=5, verbose=1)
     checkpointer = ModelCheckpoint(filename, verbose=1, save_best_only=True)
     results = model.fit_generator(transform.make_double_generator(X_train, Y_train, 8, augmentor), epochs=100, 
