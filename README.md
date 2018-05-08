@@ -2,6 +2,8 @@
 
 ### Check it out!
 
+[DEMO!!!](http://104.197.241.47:8888/notebooks/demo.ipynb)
+
 [Final report](https://docs.google.com/document/d/1XiXpHKwEOPc9PkKmj1xGaOxLR5skX2kg2bvludoqqXg/edit?usp=sharing).
 
 [Data](https://docs.google.com/spreadsheets/d/1r2RDiRO-6SYY2ZDEveDztFRMF0re3nCt5PwRgchQM6E/edit?usp=sharing).
