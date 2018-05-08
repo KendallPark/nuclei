@@ -22,6 +22,11 @@ from itertools import chain
 from skimage.io import imread, imshow, imread_collection, concatenate_images
 from skimage.transform import resize
 from skimage.morphology import label
+from IPython import embed
+
+ROOT_DIR = os.path.abspath("./")
+print(ROOT_DIR)
+sys.path.append(ROOT_DIR)
 from data.extractor_id import extraction
 
 # params
@@ -31,6 +36,9 @@ IMG_CHANNELS = 3
 TRAIN_PATH = 'data/stage1_train/'
 TEST_PATH = 'data/stage1_test/'
 
+test_csv = pd.read_csv('data/stage1_solution.csv')
+test_ids = next(os.walk(TEST_PATH))[1]
+
 warnings.filterwarnings('ignore', category=UserWarning, module='skimage')
 seed = 42
 random.seed = seed
@@ -38,6 +46,49 @@ np.random.seed = seed
 
 num_of_epoch = 100
 filename = 'model-no-augmentation.h5'
+
+sizes_test = []
+
+def rle_decode(rle, shape):
+    """Decodes an RLE encoded list of space separated
+    numbers and returns a binary mask."""
+    rle = list(map(int, rle.split()))
+    rle = np.array(rle, dtype=np.int32).reshape([-1, 2])
+    rle[:, 1] += rle[:, 0]
+    rle -= 1
+    mask = np.zeros([shape[0] * shape[1]], np.bool)
+    for s, e in rle:
+        assert 0 <= s < mask.shape[0]
+        assert 1 <= e <= mask.shape[0], "shape: {}  s {}  e {}".format(shape, s, e)
+        mask[s:e] = 1
+    # Reshape and transpose
+    mask = mask.reshape([shape[1], shape[0]]).T
+    return mask
+
+def load_resize_test_data():
+    X_test = np.zeros((len(test_ids), IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS), dtype=np.uint8)
+    Y_test = []
+    # Y_test = np.zeros((len(test_ids), IMG_HEIGHT, IMG_WIDTH, 1), dtype=np.bool)
+    print('Getting and resizing test images ... ')
+    sys.stdout.flush()
+    for n, id_ in tqdm(enumerate(test_ids), total=len(test_ids)):
+        path = TEST_PATH + id_
+        img = imread(path + '/images/' + id_ + '.png')[:,:,:IMG_CHANNELS]
+        sizes_test.append([img.shape[0], img.shape[1]])
+        img = resize(img, (IMG_HEIGHT, IMG_WIDTH), mode='constant', preserve_range=True)
+        X_test[n] = img
+        mask = np.zeros((sizes_test[-1][0], sizes_test[-1][1], 1), dtype=np.bool)
+        # embed()
+        for thingy in test_csv[test_csv['ImageId'] == id_].values:
+            mask_file, encoding, height, width, whatever = thingy
+            mask_ = rle_decode(encoding, [height, width]) # imread(path + '/masks/' + mask_file)
+            mask_ = np.expand_dims(resize(mask_, (sizes_test[-1][0], sizes_test[-1][1]), mode='constant',
+                                          preserve_range=True), axis=-1)
+            mask = np.maximum(mask, mask_)
+        Y_test.append(mask[:, :, 0])
+
+    print('Done!')
+    return X_test, Y_test
 
 def load_resize_data(train_ids, validation_ids):
     # Get train and test IDs
@@ -77,7 +128,6 @@ def load_resize_data(train_ids, validation_ids):
             mask = np.maximum(mask, mask_)
         Y_val[n] = mask
 
-    print('Done!')
     return X_train, Y_train, X_val, Y_val
 
 
@@ -103,6 +153,20 @@ def mean_iou(y_true, y_pred):
             score = tf.identity(score)
         prec.append(score)
     return K.mean(K.stack(prec), axis=0)
+
+def mean_iou_test(y_true, y_pred):
+    prec = []
+    for t in np.arange(0.5, 1.0, 0.05):
+        y_pred_ = tf.to_int32(y_pred > t)
+        score, up_opt = tf.metrics.mean_iou(tf.convert_to_tensor(y_true), tf.convert_to_tensor(y_pred_), 2)
+        K.get_session().run(tf.local_variables_initializer())
+        with tf.control_dependencies([up_opt]):
+            score = tf.identity(score)
+        prec.append(score)
+    # return prec
+    mean = K.mean(K.stack(prec), axis=0)
+    return mean
+
 
 
 def build_unet():
@@ -165,9 +229,40 @@ def train(X_train, Y_train, X_val, Y_val, model, filename):
 
 
 def main():
-    model = build_unet()
-    [X_train, Y_train, X_val, Y_val] = get_data()
-    train(X_train, Y_train, X_val, Y_val, model, filename)
+    if sys.argv[1] == "test":
+        model = load_model(os.path.join("demo", "models", "unet", "unet_aug_0.h5"), custom_objects={'mean_iou': mean_iou})
+        X_test, Y_test = load_resize_test_data()
+        preds_test = model.predict(X_test, verbose=1)
+        preds_test_t = (preds_test > 0.5).astype(np.uint8)
+
+        # Create list of upsampled test masks
+        preds_test_upsampled = []
+        for i in range(len(preds_test)):
+            preds_test_upsampled.append(resize(np.squeeze(preds_test[i]),
+                                               (sizes_test[i][0], sizes_test[i][1]),
+                                               mode='constant', preserve_range=True))
+        means = []
+        for i in range(len(preds_test_upsampled)):
+            prediction = preds_test_upsampled[i]
+            actual = Y_test[i]
+            # embed()
+            means.append(mean_iou_test(actual, prediction))
+        for mean in means:
+            sess = tf.Session()
+            sess.run(tf.local_variables_initializer())
+            sess.run(tf.global_variables_initializer())
+
+            # sess.run(up_opt)
+            res = sess.run(mean)
+            print(res)
+            # return res
+        # print(mean)
+
+    else:
+        model = build_unet()
+        [X_train, Y_train, X_val, Y_val] = get_data()
+        train(X_train, Y_train, X_val, Y_val, model, filename)
+
 
 
 if __name__ == '__main__':
