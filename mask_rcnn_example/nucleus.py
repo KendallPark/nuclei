@@ -41,6 +41,7 @@ import json
 import datetime
 import numpy as np
 import skimage.io
+from random import randint
 from imgaug import augmenters as iaa
 
 # Root directory of the project
@@ -210,11 +211,13 @@ class NucleusDataset(utils.Dataset):
         # "val": use hard-coded list above
         # "train": use data from stage1_train minus the hard-coded list above
         # else: use the data from the specified sub-directory
-        assert subset in ["train", "val", "stage1_train", "stage1_test", "stage2_test"]
-        subset_dir = "stage1_train" if subset in ["train", "val"] else subset
+        assert subset in ["train", "val", "stage1_train", "stage1_test", "stage2_test", "demo"]
+        subset_dir = "stage1_train" if subset in ["train", "val", "demo"] else subset
         dataset_dir = os.path.join(dataset_dir, subset_dir)
         if subset == "val":
             image_ids = VAL_IMAGE_IDS
+        elif subset == "demo":
+            image_ids = extraction(0.0, "../data/stage1_train_classes.csv", "../data/stage1_train", randint(0,100))
         else:
             # Get image ids from directory names
             image_ids = next(os.walk(dataset_dir))[1]
