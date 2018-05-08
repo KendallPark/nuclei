@@ -2,7 +2,7 @@
 
 ### Check it out!
 
-[DEMO!!!](http://104.197.241.47:8888/notebooks/demo.ipynb)
+[DEMO!!!](http://104.197.241.47:8888/notebooks/demo.ipynb?token=7ed59b32c788b364212da4096ebed68467491be89e1d2e24)
 
 [Final report](https://docs.google.com/document/d/1XiXpHKwEOPc9PkKmj1xGaOxLR5skX2kg2bvludoqqXg/edit?usp=sharing).
 
